@@ -10,6 +10,51 @@
 
     </head>
     <body>
-        Hello World, Foo Bar!
+        <input type="text" id='filterInput'/>
+        <div>
+            <ul id='fruitList'>
+                <li>Apple</li>
+                <li>Apples</li>
+                <li>Banana</li>
+                <li>Carrot</li>
+                <li>Durian</li>
+                <li>Eggplant</li>
+                <li>Figs</li>
+                <li>Guava</li>
+                <li>Honeydew</li>
+                <li>Ita Palm</li>
+                <li>Jackfruit</li>
+                <li>Kiwis</li>
+                <li>Lemon</li>
+                <li>Mango</li>
+                <li>Nectarines</li>
+                <li>Oranges</li>
+            </ul>
+        </div>
+        <script src="lib/autocomplete.js" lang='javascript'></script>
+        <script lang="javascript">
+
+            var fi = document.getElementById('filterInput');
+            var fruitsUl = document.getElementById('fruitList');
+            var fruitsLi = fruitsUl.getElementsByTagName('li');
+            var fruits = [];
+            for (var i= 0;i<fruitsLi.length;i++){
+                fruits[fruits.length]=fruitsLi[i].textContent;
+            }
+            var wordsFilter = new WordsFilter(fruits);
+
+            fi.onkeyup= function(){
+                var filterList = wordsFilter.filter(fi.value);
+
+                fruitsUl.innerHTML = "";
+
+                for (var i = 0 ; i< filterList.length ; i++){
+                    var node = document.createElement("LI");                 // Create a <li> node
+                    var textnode = document.createTextNode(filterList[i]);         // Create a text node
+                    node.appendChild(textnode);                              // Append the text to <li>
+                    fruitsUl.appendChild(node);
+                }
+            }
+        </script>
     </body>
 <html>
