@@ -21,7 +21,7 @@ class WordsFilter {
 
         this.calculateState(input);
 
-        return this.currentList = this.currentList.filter(element => { return element.indexOf(input) > -1 });
+        return this.currentList = this.currentList.filter(element => { return element.toLowerCase().indexOf(input) > -1 });
     }
 }
 // var inputList = ['aaa','xx','aab','cc','dd','cd','xxxcdfff'];
