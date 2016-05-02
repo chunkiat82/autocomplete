@@ -7,40 +7,90 @@
         <meta description="this is a demo page for my own implementation of autocomplete"/>
         <meta author="Raymond Ho"/>
         <title>Autocomplete Implementation</title>
+        <style>
+            .component{
+                width: 400px;
+            }
+            .left {
+                float: left;   
+            }
+            .right {
+                float: left;   
+            }
+            .label {
+               margin-right: 5px;
+            }
+            .autocomplete {
+                width: 200px;
+            }
 
+            .autocomplete input{
+                width: 200px;
+            }
+            
+            .autocomplete .suggestionList {
+                position: absolute;
+                width: inherit;    
+                display: block;            
+            }
+            .autocomplete .hidden{
+                display: none;
+            }            
+
+            .autocomplete .suggestionList .fruitsList{
+                width: inherit;
+                position: relative;
+                height: 100px;
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
+            .autocomplete span {
+                display: block;
+            }
+        </style>
     </head>
     <body>
-        <input type="text" id='filterInput'/>
-        <div>
-            <ul id='fruitList'>
-                <li>Apple</li>
-                <li>Apples</li>
-                <li>Banana</li>
-                <li>Carrot</li>
-                <li>Durian</li>
-                <li>Eggplant</li>
-                <li>Figs</li>
-                <li>Guava</li>
-                <li>Honeydew</li>
-                <li>Ita Palm</li>
-                <li>Jackfruit</li>
-                <li>Kiwis</li>
-                <li>Lemon</li>
-                <li>Mango</li>
-                <li>Nectarines</li>
-                <li>Oranges</li>
-            </ul>
+        <div class="component">
+            <div class="label left">
+                <span>Name of fruit:</span>
+            </div>
+            <div class="autocomplete right">
+                <input type="text" id='filterInput'/>
+                <div id="suggestionList" class="suggestionList hidden">
+                    <div id='fruitsList' class="fruitsList">
+                        <span>Apple</span>
+                        <span>Apples</span>
+                        <span>Banana</span>
+                        <span>Carrot</span>
+                        <span>Durian</span>
+                        <span>Eggplant</span>
+                        <span>Figs</span>
+                        <span>Guava</span>
+                        <span>Honeydew</span>
+                        <span>Ita Palm</span>
+                        <span>Jackfruit</span>
+                        <span>Kiwis</span>
+                        <span>Lemon</span>
+                        <span>Mango</span>
+                        <span>Nectarines</span>
+                        <span>Oranges</span>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <script src="lib/autocomplete.js" lang='javascript'></script>
+        <script src="src/autocomplete.js" lang='javascript'></script>
         <script lang="javascript">
 
             var fi = document.getElementById('filterInput');
-            var fruitsUl = document.getElementById('fruitList');
-            var fruitsLi = fruitsUl.getElementsByTagName('li');
+            var fruitsUl = document.getElementById('fruitsList');
+            var suggestionDiv = document.getElementById('suggestionList');
+            var fruitsSpan = fruitsUl.getElementsByTagName('span');
             var fruits = [];
-            for (var i= 0;i<fruitsLi.length;i++){
-                fruits[fruits.length]=fruitsLi[i].textContent;
+
+            for (var i= 0;i<fruitsSpan.length;i++){
+                fruits[fruits.length]=fruitsSpan[i].textContent;
             }
+
             var wordsFilter = new WordsFilter(fruits);
 
             fi.onkeyup= function(){
@@ -48,13 +98,20 @@
 
                 fruitsUl.innerHTML = "";
 
-                for (var i = 0 ; i< filterList.length ; i++){
-                    var node = document.createElement("LI");                 // Create a <li> node
+                for (var i = 0 ; i < filterList.length ; i++){
+                    var node = document.createElement("span");                 // Create a <span> node
                     var textnode = document.createTextNode(filterList[i]);         // Create a text node
-                    node.appendChild(textnode);                              // Append the text to <li>
+                    node.appendChild(textnode);                              // Append the text to <span>
                     fruitsUl.appendChild(node);
                 }
+
+                if (fruits.length === filterList.length) {                
+                    suggestionDiv.classList.add("hidden");                    
+                } else {
+                    suggestionDiv.classList.remove("hidden");
+                }
             }
+
         </script>
     </body>
 <html>
